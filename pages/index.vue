@@ -3,9 +3,10 @@ import { onMounted } from 'vue';
 import { render_markdown } from "rust"
 
 const title = ref("Markdown to html")
-const md_input = ref("# Heading 1\n\n- Red\n- Green\n- Blue\n\n[example.com](https://example.com/)\n\n![](/milky-way.jpg)")
+const md_input = ref("# Heading\n\n- Red\n- Green\n- Blue\n\n[example.com](https://example.com/)\n\n![](/milky-way.jpg)")
 const html_output = ref("")
 const display_preview = ref(true)
+const md_textarea = ref(null)
 
 function render_md() {
     html_output.value = render_markdown(md_input.value)
@@ -13,6 +14,7 @@ function render_md() {
 
 onMounted(() => {
     render_md()
+    md_textarea.value.focus()
 })
 </script>
 
@@ -37,8 +39,8 @@ onMounted(() => {
                 </div>
             </div>
             <div class="head_inline_container">
-                <div>Syntax</div>
-                <div>Markdown</div>
+                <div class="head_inline_title">Syntax</div>
+                <div class="head_inline_title">Markdown</div>
                 <div class="toggle_container">
                     <button @click="display_preview = true" :class="{ active: display_preview }">Preview</button>
                     <button @click="display_preview = false" :class="{ active: !display_preview }">HTML</button>
@@ -74,7 +76,7 @@ onMounted(() => {
                     </tr>
                     <tr>
                         <td>
-                            <code>1 Red<br>2 Green<br>3 Blue</code>
+                            <code>1. Red<br>2. Green<br>3. Blue</code>
                         </td>
                     </tr>
                 </table>
@@ -119,7 +121,7 @@ onMounted(() => {
                 </table>
             </div>
             <div class="md_input_container">
-                <textarea v-model="md_input" @keyup="render_md"></textarea>
+                <textarea v-model="md_input" @keyup="render_md" ref="md_textarea"></textarea>
             </div>
             <div class="output_container">
                 <div v-if="display_preview" class="preview" v-html="html_output"></div>
@@ -166,6 +168,10 @@ h1 {
     grid-template-columns: 0.5fr 1fr 1fr;
     align-items: center;
     gap: 16px;
+}
+
+.head_inline_title {
+    color: var(--color-link);
 }
 
 .main {
