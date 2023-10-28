@@ -124,8 +124,8 @@ onMounted(() => {
                 <textarea v-model="md_input" @keyup="render_md" ref="md_textarea"></textarea>
             </div>
             <div class="output_container">
-                <div v-if="display_preview" class="preview" v-html="html_output"></div>
-                <textarea v-else v-model="html_output"></textarea>
+                <div v-show="display_preview" class="preview" v-html="html_output"></div>
+                <textarea v-show="!display_preview" v-model="html_output"></textarea>
             </div>
         </div>
     </div>
